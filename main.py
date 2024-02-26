@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from bot_logic import gen_pass, flip_coin, gen_emodji, roll_dice
+from bot_logic import gen_pass, flip_coin, gen_emodji, roll_dice, RNG
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -39,4 +39,8 @@ async def bye(ctx):
 async def rolldice(ctx):
     await ctx.send("Rzucam kostką do gry. Wynik: "+ roll_dice())
 
-bot.run("TOKEN HERE")
+@bot.command()
+async def rng(ctx, lower = 0, upper = 1000000):
+    await ctx.send("Generuję losową liczbę od " + str(lower) + " do " + str(upper) + ". Wynik: " + str(RNG(int(lower), int(upper))))
+
+bot.run("TOKEN")

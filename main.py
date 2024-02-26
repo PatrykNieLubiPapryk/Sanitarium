@@ -39,4 +39,4 @@ async def bye(ctx):
 async def rolldice(ctx):
     await ctx.send("Rzucam kostką do gry. Wynik: "+ roll_dice())
 
-bot.run("MTIwOTE4NjkwNjkwMzE1MDU5NA.G-QC2E.voCeFpjwPlKgYs3X8hbBXPdaKYbC1n28Cl_UF4")
+bot.run("TOKEN HERE")

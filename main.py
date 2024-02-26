@@ -34,7 +34,7 @@ async def genpass(ctx, pwd_length = 10):
 @bot.command()
 async def bye(ctx):
     await ctx.send("Żegnaj! " + "\U0001f642")
-
+    
 @bot.command()
 async def rolldice(ctx):
     await ctx.send("Rzucam kostką do gry. Wynik: "+ roll_dice())
@@ -43,4 +43,8 @@ async def rolldice(ctx):
 async def rng(ctx, lower = 0, upper = 1000000):
     await ctx.send("Generuję losową liczbę od " + str(lower) + " do " + str(upper) + ". Wynik: " + str(RNG(int(lower), int(upper))))
 
-bot.run("TOKEN")
+@bot.command()
+async def add(ctx, left: 9, right: 10):
+    await ctx.send(int(left) + int(right))
+
+bot.run("token")

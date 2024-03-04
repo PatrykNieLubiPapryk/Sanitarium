@@ -1,4 +1,4 @@
-import discord
+import discord, random, os, requests
 from discord.ext import commands
 from bot_logic import gen_pass, flip_coin, gen_emodji, roll_dice, RNG
 
@@ -44,7 +44,41 @@ async def rng(ctx, lower = 0, upper = 1000000):
     await ctx.send("Generuję losową liczbę od " + str(lower) + " do " + str(upper) + ". Wynik: " + str(RNG(int(lower), int(upper))))
 
 @bot.command()
-async def add(ctx, left: 9, right: 10):
+async def add(ctx, left = 9, right = 10):
     await ctx.send(int(left) + int(right))
 
-bot.run("token")
+@bot.command()
+async def mem(ctx):
+    img_name = random.choice(os.listdir('images'))
+    with open(f'images/{img_name}', 'rb') as f:
+            picture = discord.File(f)
+    await ctx.send(file=picture)
+
+@bot.command()
+async def zmem(ctx):
+    img_name = random.choice(os.listdir('animals'))
+    with open(f'animals/{img_name}', 'rb') as f:
+            picture = discord.File(f)
+    await ctx.send(file=picture)
+
+def get_duck_image_url():    
+    url = 'https://random-d.uk/api/random'
+    res = requests.get(url)
+    data = res.json()
+    return data['url']
+@bot.command('duck')
+async def duck(ctx):
+    image_url = get_duck_image_url()
+    await ctx.send(image_url)
+
+def get_dog_image_url():    
+    url = 'https://random.dog/woof.json'
+    res = requests.get(url)
+    data = res.json()
+    return data['url']
+@bot.command('dog')
+async def dog(ctx):
+    image_url = get_dog_image_url()
+    await ctx.send(image_url)
+
+bot.run("TOKEN")

@@ -1,0 +1,12 @@
+body {
+    font-family: 'Courier New', Courier, monospace; /* Rodzina czcionek */
+    font-size: 20px; /* Rozmiar głównej czcionki w <p></p> tag  */
+    background-color: #fffaeb; /* Kolor tła strony internetowej */
+    color: #000000 /* Kolor tekstu*/ 
+}
+h1 {
+    color: #eb0909; /* Kolor nagłówka */
+    font-size: 60px; /* Rozmiar czcionki nagłówka */
+    font-family: 'Jazz LET', fantasy; /* Rodzina czcionek używana w nagłówku */
+    font-style: oblique
+}

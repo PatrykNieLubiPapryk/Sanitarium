@@ -4,9 +4,21 @@ body {
     background-color: #fffaeb; /* Kolor tła strony internetowej */
     color: #000000 /* Kolor tekstu*/ 
 }
-h1 {
-    color: #eb0909; /* Kolor nagłówka */
-    font-size: 60px; /* Rozmiar czcionki nagłówka */
-    font-family: 'Jazz LET', fantasy; /* Rodzina czcionek używana w nagłówku */
-    font-style: oblique
+
+@keyframes color-change {
+    0% {
+      color: blue;
+    }
+
+    50% {
+      color: red;
+    }
+
+    100% {
+      color: blue;
+    }
+  }
+
+h1:hover {
+    animation: color-change 3s infinite;
 }

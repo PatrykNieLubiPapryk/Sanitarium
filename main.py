@@ -14,7 +14,7 @@ facts_list = ['Większość osób cierpiących na uzależnienie technologiczne d
 
 @app.route("/")
 def text():
-    return '<h1>Cześć! Na tej stronie możesz dowiedzieć się kilku ciekawostek na temat zależności technologicznych!</h1> <a href="/random_fact">Zobacz losowy fakt!</a> <a href="/coin_flip">Rzuć monetą!</a>'
+    return '<h1>Cześć! Na tej stronie możesz dowiedzieć się kilku ciekawostek na temat zależności technologicznych!</h1> <a href="/random_fact">Zobacz losowy fakt!</a> <p><a href="/coin_flip">Rzuć monetą!</a></p>'
 
 @app.route("/random_fact")
 def random_fact():

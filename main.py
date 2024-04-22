@@ -1,84 +1,31 @@
-import discord, random, os, requests
-from discord.ext import commands
-from bot_logic import gen_pass, flip_coin, gen_emodji, roll_dice, RNG
+from flask import Flask
+import random
 
-intents = discord.Intents.default()
-intents.message_content = True
+app = Flask(__name__)
 
-bot = commands.Bot(command_prefix='$', intents=intents)
+facts_list = ['Większość osób cierpiących na uzależnienie technologiczne doświadcza silnego stresu, gdy znajdują się poza zasięgiem sieci lub nie mogą korzystać ze swoich urządzeń.',
+'Według badania przeprowadzonego w 2018 roku ponad 50% osób w wieku od 18 do 34 lat uważa się za zależne od swoich smartfonów.',
+'Badanie zależności technologicznych jest jednym z najważniejszych obszarów współczesnych badań naukowych.',
+'Według badania z 2019 r. ponad 60% osób odpowiada na wiadomości służbowe na swoich smartfonach w ciągu 15 minut po wyjściu z pracy.',
+'Jednym ze sposobów walki z uzależnieniem od technologii jest poszukiwanie zajęć, które sprawiają przyjemność i poprawiają nastrój.',
+'Elon Musk twierdzi, że sieci społecznościowe są zaprojektowane tak, aby trzymać nas na platformie, abyśmy spędzali jak najwięcej czasu na przeglądaniu treści.',
+'Elon Musk opowiada się także za regulacją sieci społecznościowych i ochroną danych osobowych użytkowników. Twierdzi, że sieci społecznościowe gromadzą o nas ogromną ilość informacji, które następnie można wykorzystać do manipulowania naszymi myślami i zachowaniami.',
+'Sieci społecznościowe mają swoje zalety i wady, a korzystając z tych platform, powinniśmy być ich świadomi.']
 
-@bot.event
-async def on_ready():
-    print(f'Zalogowaliśmy się jako {bot.user}')
+@app.route("/")
+def text():
+    return '<h1>Cześć! Na tej stronie możesz dowiedzieć się kilku ciekawostek na temat zależności technologicznych!</h1> <a href="/random_fact">Zobacz losowy fakt!</a> <a href="/coin_flip">Rzuć monetą!</a>'
 
-@bot.command()
-async def hello(ctx):
-    await ctx.send(f'Cześć, jestem bot{bot.user}!')
+@app.route("/random_fact")
+def random_fact():
+    return f'<p>{random.choice(facts_list)}</p>'
 
-@bot.command()
-async def heh(ctx, count_heh = 5):
-    await ctx.send("he" * count_heh)
+@app.route("/coin_flip")
+def coin_flip():
+    result = random.randint(0,1)
+    if result == 0:
+        return '<h1>Orzeł</h1>'
+    else:
+        return '<h1>Reszka</h1>'
 
-@bot.command()
-async def flipcoin(ctx):
-    await ctx.send("Rzucam monętą. Wynik: " + flip_coin())
-
-@bot.command()
-async def emoji(ctx):
-    await ctx.send(str(gen_emodji()))
-
-@bot.command()
-async def genpass(ctx, pwd_length = 10):
-    await ctx.send("Generuję hasło o długości " + str(pwd_length) + ": " + gen_pass(pwd_length))
-
-@bot.command()
-async def bye(ctx):
-    await ctx.send("Żegnaj! " + "\U0001f642")
-    
-@bot.command()
-async def rolldice(ctx):
-    await ctx.send("Rzucam kostką do gry. Wynik: "+ roll_dice())
-
-@bot.command()
-async def rng(ctx, lower = 0, upper = 1000000):
-    await ctx.send("Generuję losową liczbę od " + str(lower) + " do " + str(upper) + ". Wynik: " + str(RNG(int(lower), int(upper))))
-
-@bot.command()
-async def add(ctx, left = 9, right = 10):
-    await ctx.send(int(left) + int(right))
-
-@bot.command()
-async def mem(ctx):
-    img_name = random.choice(os.listdir('images'))
-    with open(f'images/{img_name}', 'rb') as f:
-            picture = discord.File(f)
-    await ctx.send(file=picture)
-
-@bot.command()
-async def zmem(ctx):
-    img_name = random.choice(os.listdir('animals'))
-    with open(f'animals/{img_name}', 'rb') as f:
-            picture = discord.File(f)
-    await ctx.send(file=picture)
-
-def get_duck_image_url():    
-    url = 'https://random-d.uk/api/random'
-    res = requests.get(url)
-    data = res.json()
-    return data['url']
-@bot.command('duck')
-async def duck(ctx):
-    image_url = get_duck_image_url()
-    await ctx.send(image_url)
-
-def get_dog_image_url():    
-    url = 'https://random.dog/woof.json'
-    res = requests.get(url)
-    data = res.json()
-    return data['url']
-@bot.command('dog')
-async def dog(ctx):
-    image_url = get_dog_image_url()
-    await ctx.send(image_url)
-
-bot.run("TOKEN")
+app.run(debug=True)
